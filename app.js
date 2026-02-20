@@ -22,6 +22,7 @@ app
   .use(morgan("dev"))
   .use(bodyParser.json());
 
+// mount routes
 app.use("/api", findAll);
 
 // server listening on

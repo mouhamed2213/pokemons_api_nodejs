@@ -15,4 +15,10 @@ router.get("/pokemons", async (req, res) => {
   res.json(pokemons);
 });
 
+router.post("/pokemons", (req, res) => {
+  console.log("req : ", req.body);
+
+  res.json("Received !!!");
+});
+
 export default router;
