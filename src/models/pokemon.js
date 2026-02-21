@@ -29,6 +29,12 @@ export const pokemonModel = (sequelize, DataTypes) => {
       types: {
         type: DataTypes.STRING,
         allowNull: false,
+        get() {
+          return this.getDataValue("types").split(",");
+        },
+        set(types) {
+          this.setDataValue("types", types.join(","));
+        },
       },
     },
     // other option

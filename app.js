@@ -6,7 +6,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { sequelizeConfig } from "./src/db/sequelize.js";
-import findAll from "./src/routes/findall.js";
+import pokemonRoute from "./src/routes/Pokemon.js";
 
 const app = express();
 const port = 3000;
@@ -23,8 +23,9 @@ app
   .use(bodyParser.json());
 
 // mount routes
-app.use("/api", findAll);
+app.use("/api", pokemonRoute);
 
+// for
 // server listening on
 app.listen(port, () =>
   console.log(`app running on : http://localhost:${port}`),
