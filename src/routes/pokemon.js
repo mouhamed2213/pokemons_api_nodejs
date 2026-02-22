@@ -1,6 +1,6 @@
 import express from "express";
 import { sequelizeConfig as sequelize } from "../db/sequelize.js";
-import { where } from "sequelize";
+import { where, Op } from "sequelize";
 const Pokemon = sequelize.Pokemon;
 const router = express.Router();
 
@@ -15,27 +15,27 @@ router.get("/pokemons", async (req, res) => {
     // find pokem/mon by his name
     const name = req.query.name;
     if (req.query.name) {
-      const pokemon = await Pokemon.findOne({
-        where: { name: name },
+      const pokemon = await Pokemon.findAll({
+        where: { name: { [Op.ne]: name } },
       });
 
-      if (pokemon === null) {
+      if (pokemon === null || pokemon.length === 0) {
         return res
           .status(404)
           .json({ message: `No pokemon with name ${name} found`, data: [] });
       }
 
       return res.status(200).json({ message: "pokemon found", data: pokemon });
+    } else {
+      // find all pokemon
+      const pokemons = await Pokemon.findAll();
+      if (pokemons.length === 0) {
+        return res
+          .status(404)
+          .json({ status: 404, message: "pokemon list not found", data: [] });
+      }
+      res.json({ message: `all ${pokemons.length} pokemons`, data: pokemons });
     }
-
-    // find all pokemon
-    const pokemons = await Pokemon.findAll();
-    if (pokemons.length === 0) {
-      return res
-        .status(404)
-        .json({ status: 404, message: "pokemon list not found", data: [] });
-    }
-    res.json({ message: `all ${pokemons.length} pokemons`, data: pokemons });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
