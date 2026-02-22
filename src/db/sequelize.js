@@ -38,17 +38,17 @@ const synchro = async (Pokemon, listPokemon) => {
   // create defined model
   await sequelize.sync({ force: true });
   // insert default pokemon
-  await listPokemon.map((pokemon) => {
-    Pokemon.create({
-      name: pokemon.name,
-      hp: pokemon.hp,
-      cp: pokemon.cp,
-      picture: pokemon.picture,
-      types: pokemon.types,
-    }).then((value) => {
-      console.log(value.toJSON());
-    });
-  });
+  // await listPokemon.map((pokemon) => {
+  //   Pokemon.create({
+  //     name: pokemon.name,
+  //     hp: pokemon.hp,
+  //     cp: pokemon.cp,
+  //     picture: pokemon.picture,
+  //     types: pokemon.types,
+  //   }).then((value) => {
+  //     console.log(value.toJSON());
+  //   });
+  // });
 };
 
 export const sequelizeConfig = {
