@@ -1,5 +1,3 @@
-import { type } from "node:os";
-
 // pokemon model
 export const pokemonModel = (sequelize, DataTypes) => {
   return sequelize.define(
@@ -13,15 +11,53 @@ export const pokemonModel = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: {
+          msg: "This pokemon name already exist",
+        },
+
+        // validation
+        validate: {
+          notNull: { msg: "This field is required" },
+          notEmpty: { msg: "pokemon name should not be empty" },
+        },
       },
       hp: {
         type: DataTypes.INTEGER,
         allowNull: false,
+
+        // validation
+        validate: {
+          is: /^[0-9]+$/,
+
+          min: {
+            args: [0],
+            msg: "pokemon Hp should have at least 0 hp",
+          },
+          max: {
+            args: [999],
+            msg: "maximum pokemon Hp = 999",
+          },
+        },
       },
       cp: {
         type: DataTypes.STRING,
         allowNull: false,
+
+        // validation
+        validate: {
+          is: /^[0-9]+$/,
+          min: {
+            args: [0],
+            msg: "pokemon cp should have at least 0 cp",
+          },
+
+          max: {
+            args: [99],
+            msg: "maximum pokemon Cp = 99",
+          },
+        },
       },
+
       picture: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,6 +65,7 @@ export const pokemonModel = (sequelize, DataTypes) => {
       types: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {},
         get() {
           return this.getDataValue("types").split(",");
         },

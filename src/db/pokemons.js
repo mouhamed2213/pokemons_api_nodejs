@@ -27,7 +27,7 @@ export const pokemons = [
     created: new Date(),
   },
   {
-    name: "Salamèche",
+    name: "SalamEche",
     hp: 20,
     cp: 6,
     picture:

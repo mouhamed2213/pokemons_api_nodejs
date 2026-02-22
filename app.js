@@ -34,10 +34,12 @@ app.use((req, res) => {
 
 // handle gloval error
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Error occurse, see error stack" });
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+
+//   if (err instanceof SequelizeUniqueConstraintError)
+//     return res.status(500).json({ message: "Error occurse, see error stack" });
+// });
 
 // server listening on
 app.listen(port, () =>

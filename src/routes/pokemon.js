@@ -19,7 +19,7 @@ router.get("/pokemons", async (req, res) => {
         .json({ status: 404, message: "pokemon list not found", data: [] });
     }
 
-    res.json({ message: "all pokemons", data: pokemons });
+    res.json({ message: `all ${pokemons.length} pokemons`, data: pokemons });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -40,8 +40,8 @@ router.get("/pokemons/:id", async (req, res) => {
         .status(404)
         .json({ status: 404, message: "This pokemon does\nt exist" });
     }
+    console.log(findOnePokemon);
     res.json({ message: `pokemon ${id} found`, data: findOnePokemon });
-    console.log(findOne);
   } catch (error) {
     return res
       .status(500)
@@ -58,7 +58,18 @@ router.post("/pokemons", async (req, res) => {
       .status(201)
       .json({ status: 201, message: "pokemon added", data: addPokemon });
   } catch (error) {
+    const validationError = error?.errors[0];
+
     console.log(error);
+
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({
+        status: 400,
+        message: validationError.message,
+        filed: validationError.path,
+      });
+    }
+
     res.status(500).json({
       error: "Internal server  Error",
       message: "Cannot add Pokemon please try again",
@@ -82,10 +93,18 @@ router.put("/pokemons/:id", async (req, res) => {
     }
 
     //  find updated value
-    res.status(200).json({ status: 200, message: "updated", data: updated });
+    res.status(201).json({ status: 201, message: "updated", data: updated });
   } catch (error) {
-    console.log(`${error}`);
-    // retrun all other errors
+    console.log(error);
+
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({
+        status: 400,
+        message: validationError.message,
+        filed: validationError.path,
+      });
+    }
+
     res.status(500).json({
       status: 500,
       message: "Pokemon update failed, please try again",
