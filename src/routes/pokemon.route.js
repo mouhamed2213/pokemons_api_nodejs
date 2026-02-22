@@ -1,7 +1,6 @@
 import express from "express";
-import { sequelizeConfig as sequelize } from "../db/sequelize.js";
+import { Pokemon } from "../db/sequelize.js";
 import { where, Op } from "sequelize";
-const Pokemon = sequelize.Pokemon;
 const router = express.Router();
 
 // middleware that is specific to this router

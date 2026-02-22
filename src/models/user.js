@@ -8,8 +8,12 @@ export const userModel = (sequelize, dataType) => {
       autoIncrement: true,
     },
     username: {
-      type: dataType.STRING(255),
+      type: dataType.STRING,
       allowNull: false,
+      validate: {
+        min: 14,
+        max: 15,
+      },
     },
     //  add username validatore
     password: {

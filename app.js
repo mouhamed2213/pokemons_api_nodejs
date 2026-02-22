@@ -5,7 +5,7 @@ import favicon from "serve-favicon";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
-import { sequelizeConfig } from "./src/db/sequelize.js";
+import { dbInit, Pokemon, User } from "./src/db/sequelize.js";
 import { pokemonRoute, userRouter } from "./src/routes/index.js";
 
 const app = express();
@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // init database
-sequelizeConfig.dbInit();
+dbInit();
 
 app
   .use(favicon(__dirname + "/favicon.ico"))
@@ -24,7 +24,7 @@ app
 
 // mount routes
 app.use("/api", pokemonRoute);
-app.use("api/auth", userRouter);
+app.use("/api/auth", userRouter);
 
 //  middleware to return response for all not expected route
 app.use((req, res) => {

@@ -51,8 +51,4 @@ const synchro = async (Pokemon, listPokemon) => {
   // });
 };
 
-export const sequelizeConfig = {
-  dbInit,
-  Pokemon,
-  User,
-};
+export { dbInit, Pokemon, User };

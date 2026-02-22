@@ -1,8 +1,10 @@
 import express from "express";
-const userRouter = express.Router();
 
-userRouter.get("signup", (req, res) => {
-  console.log(req);
+const router = express.Router();
+
+router.post("/signup", (req, res) => {
+  const body = req.body;
+  console.log("Body : ", body);
 });
 
-export default userRouter;
+export default router;
