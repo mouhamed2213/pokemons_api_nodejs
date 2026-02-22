@@ -1,2 +1,7 @@
-import router from "./Pokemon";
-import router from "./user.route";
+import pokemonRoute from "./pokemon.route";
+import userRoute from "./user.route";
+
+export default {
+  pokemonRoute,
+  userRoute,
+};

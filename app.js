@@ -6,7 +6,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { sequelizeConfig } from "./src/db/sequelize.js";
-import pokemonRoute from "./src/routes/Pokemon.js";
+import { pokemonRoute, userRouter } from "./src/routes/index.js";
 
 const app = express();
 const port = 3000;
@@ -24,6 +24,7 @@ app
 
 // mount routes
 app.use("/api", pokemonRoute);
+app.use("api/auth", userRouter);
 
 //  middleware to return response for all not expected route
 app.use((req, res) => {
@@ -31,15 +32,6 @@ app.use((req, res) => {
 
   res.status(404).json({ message });
 });
-
-// handle gloval error
-
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-
-//   if (err instanceof SequelizeUniqueConstraintError)
-//     return res.status(500).json({ message: "Error occurse, see error stack" });
-// });
 
 // server listening on
 app.listen(port, () =>

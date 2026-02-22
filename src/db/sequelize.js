@@ -36,7 +36,7 @@ const User = userModel(sequelize, DataTypes);
 
 const synchro = async (Pokemon, listPokemon) => {
   // create defined model
-  await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
   // insert default pokemon
   // await listPokemon.map((pokemon) => {
   //   Pokemon.create({

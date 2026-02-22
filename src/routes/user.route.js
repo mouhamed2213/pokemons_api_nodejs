@@ -1,8 +1,8 @@
 import express from "express";
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get("api/auth/signup", (req, res) => {
+userRouter.get("signup", (req, res) => {
   console.log(req);
 });
 
-export default UserRoute;
+export default userRouter;
