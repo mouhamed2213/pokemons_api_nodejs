@@ -1,7 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { pokemonModel } from "../models/pokemon.js";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { userModel } from "../models/user.js";
 import { pokemons as defaultPokemonList } from "./pokemons.js";
 import console from "console";
 
@@ -33,25 +32,27 @@ const dbInit = async () => {
 
 // instance of model
 const Pokemon = pokemonModel(sequelize, DataTypes);
+const User = userModel(sequelize, DataTypes);
 
 const synchro = async (Pokemon, listPokemon) => {
   // create defined model
-  // await sequelize.sync({ force: true });
+  await sequelize.sync({ force: true });
   // insert default pokemon
-  // await listPokemon.map((pokemon) => {
-  //   Pokemon.create({
-  //     name: pokemon.name,
-  //     hp: pokemon.hp,
-  //     cp: pokemon.cp,
-  //     picture: pokemon.picture,
-  //     types: pokemon.types,
-  //   }).then((value) => {
-  //     console.log(value.toJSON());
-  //   });
-  // });
+  await listPokemon.map((pokemon) => {
+    Pokemon.create({
+      name: pokemon.name,
+      hp: pokemon.hp,
+      cp: pokemon.cp,
+      picture: pokemon.picture,
+      types: pokemon.types,
+    }).then((value) => {
+      console.log(value.toJSON());
+    });
+  });
 };
 
 export const sequelizeConfig = {
   dbInit,
   Pokemon,
+  User,
 };
