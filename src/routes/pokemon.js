@@ -12,13 +12,29 @@ const timeLog = (req, res, next) => {
 router.use(timeLog);
 router.get("/pokemons", async (req, res) => {
   try {
+    // find pokem/mon by his name
+    const name = req.query.name;
+    if (req.query.name) {
+      const pokemon = await Pokemon.findOne({
+        where: { name: name },
+      });
+
+      if (pokemon === null) {
+        return res
+          .status(404)
+          .json({ message: `No pokemon with name ${name} found`, data: [] });
+      }
+
+      return res.status(200).json({ message: "pokemon found", data: pokemon });
+    }
+
+    // find all pokemon
     const pokemons = await Pokemon.findAll();
     if (pokemons.length === 0) {
       return res
         .status(404)
         .json({ status: 404, message: "pokemon list not found", data: [] });
     }
-
     res.json({ message: `all ${pokemons.length} pokemons`, data: pokemons });
   } catch (error) {
     console.error(error);
