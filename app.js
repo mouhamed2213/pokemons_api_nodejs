@@ -25,7 +25,20 @@ app
 // mount routes
 app.use("/api", pokemonRoute);
 
-// for
+//  middleware to return response for all not expected route
+app.use((req, res) => {
+  const message = "ressource not found";
+
+  res.status(404).json({ message });
+});
+
+// handle gloval error
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Error occurse, see error stack" });
+});
+
 // server listening on
 app.listen(port, () =>
   console.log(`app running on : http://localhost:${port}`),
