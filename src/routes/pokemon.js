@@ -13,22 +13,35 @@ router.use(timeLog);
 router.get("/pokemons", async (req, res) => {
   try {
     // find pokem/mon by his name
-    const name = req.query.name;
-    if (req.query.name) {
-      const pokemon = await Pokemon.findAll({
-        where: { name: { [Op.ne]: name } },
+
+    if (req.query?.name && req.query?.name.length > 2) {
+      const limitNumer = parseInt(req.query?.limit);
+      const limit = limitNumer ? limitNumer : 5;
+      const name = req.query.name;
+      console.log("limite ", limit, "name", name);
+
+      const { count, rows } = await Pokemon.findAndCountAll({
+        where: { name: { [Op.like]: `%${name}%` } },
+        order: ["name"], // order by name ASC from A to Z
+        limit: limit, // result limit
       });
 
-      if (pokemon === null || pokemon.length === 0) {
+      if (rows === null || rows.length === 0) {
         return res
           .status(404)
           .json({ message: `No pokemon with name ${name} found`, data: [] });
       }
 
-      return res.status(200).json({ message: "pokemon found", data: pokemon });
+      return res
+        .status(200)
+        .json({ message: `${count} pokemon found`, count: count, data: rows });
+    } else if (req.query?.name.length <= 2) {
+      return res.status(404).json({
+        message: "Search term should be contain at less 2 charactere",
+      });
     } else {
       // find all pokemon
-      const pokemons = await Pokemon.findAll();
+      const pokemons = await Pokemon.findAll({ order: ["name"] });
       if (pokemons.length === 0) {
         return res
           .status(404)
