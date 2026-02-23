@@ -5,7 +5,7 @@ import favicon from "serve-favicon";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
-import { dbInit, Pokemon, User } from "./src/db/sequelize.js";
+import { dbInit } from "./src/db/sequelize.js";
 import { pokemonRoute, userRouter } from "./src/routes/index.js";
 
 const app = express();

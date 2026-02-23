@@ -10,15 +10,29 @@ export const userModel = (sequelize, dataType) => {
     username: {
       type: dataType.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        min: 14,
-        max: 15,
+        notEmpty: {
+          msg: "Username cannot be empty",
+        },
+        len: {
+          args: [3, 10],
+          msg: "Username must be between 3 and 10 characters",
+        },
       },
     },
     //  add username validatore
     password: {
       type: dataType.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: { msg: "password field should not be empty" },
+
+        len: {
+          args: [5],
+          msg: "password should containt at least 5 characters",
+        },
+      },
     },
   });
 };
