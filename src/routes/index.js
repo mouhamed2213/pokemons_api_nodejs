@@ -1,4 +1,4 @@
 import pokemonRoute from "./pokemon.route.js";
-import userRouter from "./user.route.js";
+import userRoute from "./user.route.js";
 
-export { pokemonRoute, userRouter };
+export { pokemonRoute, userRoute };

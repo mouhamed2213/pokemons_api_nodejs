@@ -10,7 +10,8 @@ router.post("/signup", async (req, res) => {
     console.log("Body : ", body, " create Resultat ", user);
     res.json({ message: "", data: user });
   } catch (error) {
-    console.log(error.name);
+    console.log(error);
+
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         message: "sorry name already taken please change your usename",
@@ -22,6 +23,10 @@ router.post("/signup", async (req, res) => {
         message: error.message,
       });
     }
+
+    return res.status(500).json({
+      message: "Internal server Errors ",
+    });
   }
 });
 

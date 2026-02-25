@@ -1,6 +1,6 @@
 import express from "express";
 import { Pokemon } from "../db/sequelize.js";
-import { where, Op } from "sequelize";
+import { Op } from "sequelize";
 const router = express.Router();
 
 // middleware that is specific to this router
@@ -8,7 +8,10 @@ const timeLog = (req, res, next) => {
   console.log("Time: ", new Date());
   next();
 };
+
+// Specific middleware for pokemon routes
 router.use(timeLog);
+
 router.get("/pokemons", async (req, res) => {
   try {
     // find pokem/mon by his name
@@ -71,6 +74,7 @@ router.get("/pokemons/:id", async (req, res) => {
     console.log(findOnePokemon);
     res.json({ message: `pokemon ${id} found`, data: findOnePokemon });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ error: "internal server error", message: "Cannot find pokemon" });
@@ -86,15 +90,11 @@ router.post("/pokemons", async (req, res) => {
       .status(201)
       .json({ status: 201, message: "pokemon added", data: addPokemon });
   } catch (error) {
-    const validationError = error?.errors[0];
-
     console.log(error);
-
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         status: 400,
-        message: validationError.message,
-        filed: validationError.path,
+        message: error.message,
       });
     }
 
@@ -128,15 +128,13 @@ router.put("/pokemons/:id", async (req, res) => {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
         status: 400,
-        message: validationError.message,
-        filed: validationError.path,
+        message: error.message,
       });
     }
 
     res.status(500).json({
       status: 500,
       message: "Pokemon update failed, please try again",
-      error: "Internal Server Error",
     });
   }
 });
@@ -157,7 +155,7 @@ router.delete("/pokemons/:id", async (req, res) => {
     // delete
     const deleted = await Pokemon.destroy({ where: { id: id } });
     if (deleted) {
-      console.log("pokemon deleted");
+      console.log("pokemon deleted", deleted);
     }
     res.json({ status: 200, message: "pokemon delete", data: pokemon.id });
   } catch (error) {
@@ -170,4 +168,4 @@ router.delete("/pokemons/:id", async (req, res) => {
   }
 });
 
-export default router;
+export default router; // exported using default beacaue this file has on sngle goal (estup router)
