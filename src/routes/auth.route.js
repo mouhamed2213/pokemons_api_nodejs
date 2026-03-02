@@ -1,8 +1,10 @@
 import express from "express";
 import { User } from "../db/sequelize.js";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 
 const router = express.Router();
+dotenv.config();
 
 router.post("/signup", async (req, res) => {
   try {
@@ -66,11 +68,19 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
 
+    // JWT payload
+    const payload = {
+      sub: user.id,
+      name: user.username,
+      role: "user",
+    };
+
     return res
       .status(200)
       .json({ message: "connected", jwt: "dhfkjdahjkfhaushfiewuhaifhsdiuhfs" });
   } catch (error) {
     console.log(error);
+    return res.json({ message: "internal error", error: error.stack });
   }
 });
 
