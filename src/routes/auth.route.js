@@ -2,6 +2,7 @@ import express from "express";
 import { User } from "../db/sequelize.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 dotenv.config();
@@ -73,11 +74,19 @@ router.post("/login", async (req, res) => {
       sub: user.id,
       name: user.username,
       role: "user",
+      expiresIn: "7h",
     };
+    // genererate the jwt
+    const privateKey = process.env.JWT_SECRET;
 
-    return res
-      .status(200)
-      .json({ message: "connected", jwt: "dhfkjdahjkfhaushfiewuhaifhsdiuhfs" });
+    jwt.sign(payload, privateKey, (error, jwt) => {
+      if (error) {
+        console.log(console.log(error));
+      }
+
+      // return jwt
+      return res.status(200).json({ message: "connected", token: jwt });
+    });
   } catch (error) {
     console.log(error);
     return res.json({ message: "internal error", error: error.stack });

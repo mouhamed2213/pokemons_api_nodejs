@@ -1,6 +1,7 @@
 import express from "express";
 import { Pokemon } from "../db/sequelize.js";
 import { Op } from "sequelize";
+import { authMiddleware } from "../auth/middelware/auth.js";
 const router = express.Router();
 
 // middleware that is specific to this router
@@ -65,7 +66,7 @@ router.get("/pokemons", async (req, res) => {
 });
 
 // get one pokemon
-router.get("/pokemons/:id", async (req, res) => {
+router.get("/pokemons/:id", authMiddleware, async (req, res) => {
   try {
     const id = req.params.id;
     const findOnePokemon = await Pokemon.findByPk(id);
