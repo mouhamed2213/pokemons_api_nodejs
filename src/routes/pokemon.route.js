@@ -16,7 +16,7 @@ router.get("/pokemons", async (req, res) => {
   try {
     // find pokem/mon by his name
 
-    if (req.query?.name && req.query?.name.length > 2) {
+    if (req.query?.name && req.query?.name?.length > 2) {
       const limitNumer = parseInt(req.query?.limit);
       const limit = limitNumer ? limitNumer : 5;
       const name = req.query.name;
@@ -37,7 +37,7 @@ router.get("/pokemons", async (req, res) => {
       return res
         .status(200)
         .json({ message: `${count} pokemon found`, count: count, data: rows });
-    } else if (req.query?.name.length <= 2) {
+    } else if (req.query?.name?.length <= 2) {
       return res.status(404).json({
         message: "Search term should be contain at less 2 charactere",
       });
@@ -49,7 +49,10 @@ router.get("/pokemons", async (req, res) => {
           .status(404)
           .json({ status: 404, message: "pokemon list not found", data: [] });
       }
-      res.json({ message: `all ${pokemons.length} pokemons`, data: pokemons });
+      return res.json({
+        message: `all ${pokemons.length} pokemons`,
+        data: pokemons,
+      });
     }
   } catch (error) {
     console.error(error);

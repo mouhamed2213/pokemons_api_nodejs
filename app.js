@@ -8,6 +8,8 @@ import bodyParser from "body-parser";
 import { dbInit } from "./src/db/sequelize.js";
 import { pokemonRoute, userRoute } from "./src/routes/index.js";
 
+import cors from "cors";
+
 const app = express();
 const port = 3000;
 
@@ -19,6 +21,13 @@ dbInit();
 
 // middleware
 app
+  .use(
+    cors({
+      origin: "http://localhost:4200",
+      methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+      allowedHeaders: "Content-Type, Authorization",
+    }),
+  )
   .use(favicon(__dirname + "/favicon.ico"))
   .use(morgan("dev"))
   .use(bodyParser.json()); // parse body request to json

@@ -1,12 +1,20 @@
 import express from "express";
 import { User } from "../db/sequelize.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
     const body = req.body;
-    const user = await User.create(body);
+    const { password } = body;
+
+    // hash the password
+    const hash = await bcrypt.hash(password, 10);
+    const userData = { ...body, password: hash };
+
+    // create user
+    const user = await User.create(userData);
     console.log("Body : ", body, " create Resultat ", user);
     res.json({ message: "", data: user });
   } catch (error) {
@@ -28,6 +36,10 @@ router.post("/signup", async (req, res) => {
       message: "Internal server Errors ",
     });
   }
+});
+
+router.post("/login", (req, res) => {
+  console.log(req.body);
 });
 
 export default router;
