@@ -12,6 +12,7 @@ const timeLog = (req, res, next) => {
 
 // Specific middleware for pokemon routes
 router.use(timeLog);
+router.use(authMiddleware);
 
 router.get("/pokemons", async (req, res) => {
   try {
