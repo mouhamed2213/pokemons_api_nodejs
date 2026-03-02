@@ -38,8 +38,40 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
-  console.log(req.body);
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    console.log(username);
+    if (
+      username === null ||
+      username === "" ||
+      password === null ||
+      password === ""
+    ) {
+      return res.status(400).json({ message: "Empty field" });
+    }
+
+    // Find user
+    const user = await User.findOne({ where: { username: username } });
+    if (user === null) {
+      return res.status(404).json({
+        message: "Not user found. Please create a account if you don't",
+      });
+    }
+    // comparre user password
+    const checkPassword = await bcrypt.compare(password, user.password);
+
+    if (!checkPassword) {
+      //Unauthorized
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "connected", jwt: "dhfkjdahjkfhaushfiewuhaifhsdiuhfs" });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default router;
