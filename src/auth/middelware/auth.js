@@ -5,8 +5,10 @@ export const authMiddleware = (req, res, next) => {
   const secretKey = process.env.JWT_SECRET;
 
   // is authorization null
-  if (req.headers.authorization == null) {
-    return res.status(401).json({ message: "missing authorization" });
+  if (!req.headers.authorization?.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ message: "missing or invalid authorization header" });
   }
 
   // extract token

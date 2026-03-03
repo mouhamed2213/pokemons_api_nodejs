@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { dbInit } from "./src/db/sequelize.js";
 import { pokemonRoute, userRoute } from "./src/routes/index.js";
-
+import { authMiddleware } from "./src/auth/middelware/auth.js";
 import cors from "cors";
 
 const app = express();
@@ -33,8 +33,8 @@ app
   .use(bodyParser.json()); // parse body request to json
 
 // mount routes
-app.use("/api", pokemonRoute);
 app.use("/api/auth", userRoute);
+app.use("/api/pokemons", authMiddleware, pokemonRoute);
 
 //  middleware to return response for all not expected route
 app.use((req, res) => {

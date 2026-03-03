@@ -12,9 +12,9 @@ const timeLog = (req, res, next) => {
 
 // Specific middleware for pokemon routes
 router.use(timeLog);
-router.use(authMiddleware);
+// router.use();
 
-router.get("/pokemons", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // find pokem/mon by his name
 
@@ -67,7 +67,7 @@ router.get("/pokemons", async (req, res) => {
 });
 
 // get one pokemon
-router.get("/pokemons/:id", authMiddleware, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const findOnePokemon = await Pokemon.findByPk(id);
@@ -87,7 +87,7 @@ router.get("/pokemons/:id", authMiddleware, async (req, res) => {
 });
 
 // add pokemon
-router.post("/pokemons", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const addPokemon = await Pokemon.create(req.body);
     console.log(addPokemon);
@@ -111,7 +111,7 @@ router.post("/pokemons", async (req, res) => {
 });
 
 // update pokemon
-router.put("/pokemons/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const pokemon = req.body;
@@ -145,7 +145,7 @@ router.put("/pokemons/:id", async (req, res) => {
 });
 
 // delete pokeon
-router.delete("/pokemons/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     // check id pokemon existe :
