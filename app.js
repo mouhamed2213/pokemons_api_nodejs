@@ -32,10 +32,14 @@ app
   .use(morgan("dev"))
   .use(bodyParser.json()); // parse body request to json
 
+app.use("/", (req, res) => {
+  res.json("Hello Heroku");
+});
+
 // mount routes
 app.use("/api/auth", userRoute);
-// app.use("/api/pokemons", authMiddleware, pokemonRoute);
-app.use("/api/pokemons", pokemonRoute);
+app.use("/api/pokemons", authMiddleware, pokemonRoute);
+// app.use("/api/pokemons", pokemonRoute);
 
 //  middleware to return response for all not expected route
 app.use((req, res) => {
