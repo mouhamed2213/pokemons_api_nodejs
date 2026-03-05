@@ -162,7 +162,7 @@ router.delete("/:id", async (req, res) => {
     if (deleted) {
       console.log("pokemon deleted", deleted);
     }
-    res.json({ status: 200, message: "pokemon delete", data: pokemon.id });
+    res.json({ status: 204, message: "pokemon delete", data: pokemon.id });
   } catch (error) {
     console.error(error);
     return res.status(500).json({

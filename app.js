@@ -11,7 +11,7 @@ import { authMiddleware } from "./src/auth/middelware/auth.js";
 import cors from "cors";
 
 const app = express();
-const port = 3000;
+const port = 3100;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,7 +34,8 @@ app
 
 // mount routes
 app.use("/api/auth", userRoute);
-app.use("/api/pokemons", authMiddleware, pokemonRoute);
+// app.use("/api/pokemons", authMiddleware, pokemonRoute);
+app.use("/api/pokemons", pokemonRoute);
 
 //  middleware to return response for all not expected route
 app.use((req, res) => {
