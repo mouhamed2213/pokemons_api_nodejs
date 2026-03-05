@@ -2,27 +2,30 @@ import { Sequelize, DataTypes } from "sequelize";
 import { pokemonModel } from "../models/pokemon.js";
 import { userModel } from "../models/user.js";
 import { pokemons as defaultPokemonList } from "./pokemons.js";
-import console from "console";
 
-// export class SequelizeInit {
-const localhost = process.env.HOST;
-const port = process.env.PORT;
-const dbName = process.env.DB_NAME;
-const password = process.env.DB_PASSWORD;
-const database = process.env.DATABASE;
-const username = process.env.USERNAME;
-
-const sequelize = new Sequelize(dbName, "root", "1f2722a99C#", {
-  host: localhost,
-  port: port,
-  dialect: "mysql",
-  pool: {
-    max: 10, // nbr nbr open connection
-    min: 0, // 0 on waiting
-    acquire: 30000, // time  in ms to try open connection befor closing it or send erroR
-    idle: 1000, // waiting idle(inactif) time beforE reject
+console.log();
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "mysql",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 10, // nbr nbr open connection
+      min: 0, // 0 on waiting
+      acquire: 30000, // time  in ms to try open connection befor closing it or send erroR
+      idle: 1000, // waiting idle(inactif) time beforE reject
+    },
   },
-});
+);
 // }
 
 const dbInit = async () => {

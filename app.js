@@ -1,4 +1,4 @@
-// nodejs entry point
+import "dotenv/config";
 import express from "express";
 import morgan from "morgan"; // logger
 import favicon from "serve-favicon";
@@ -9,11 +9,9 @@ import { dbInit } from "./src/db/sequelize.js";
 import { pokemonRoute, userRoute } from "./src/routes/index.js";
 import { authMiddleware } from "./src/auth/middelware/auth.js";
 import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,7 +23,7 @@ dbInit();
 app
   .use(
     cors({
-      origin: "http://localhost:4200",
+      origin: "*",
       methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
       allowedHeaders: "Content-Type, Authorization",
     }),
