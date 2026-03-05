@@ -9,9 +9,11 @@ import { dbInit } from "./src/db/sequelize.js";
 import { pokemonRoute, userRoute } from "./src/routes/index.js";
 import { authMiddleware } from "./src/auth/middelware/auth.js";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const port = 3100;
+const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -48,6 +50,6 @@ app.use((req, res) => {
 });
 
 // server listening on
-app.listen(port, () =>
-  console.log(`app running on : http://localhost:${port}`),
-);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});

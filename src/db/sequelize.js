@@ -5,9 +5,16 @@ import { pokemons as defaultPokemonList } from "./pokemons.js";
 import console from "console";
 
 // export class SequelizeInit {
-const sequelize = new Sequelize("pokedex", "root", "1f2722a99C#", {
-  host: "localhost",
-  port: 3306,
+const localhost = process.env.HOST;
+const port = process.env.PORT;
+const dbName = process.env.DB_NAME;
+const password = process.env.DB_PASSWORD;
+const database = process.env.DATABASE;
+const username = process.env.USERNAME;
+
+const sequelize = new Sequelize(dbName, "root", "1f2722a99C#", {
+  host: localhost,
+  port: port,
   dialect: "mysql",
   pool: {
     max: 10, // nbr nbr open connection
