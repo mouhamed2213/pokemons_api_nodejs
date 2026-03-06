@@ -31,9 +31,9 @@ app
   // .use(morgan("dev"))
   .use(bodyParser.json()); // parse body request to json
 
-app.use("/", (req, res) => {
-  res.json("Hello Heroku");
-});
+// app.use("/", (req, res) => {
+//   res.json("Hello Heroku");
+// });
 
 // mount routes
 app.use("/api/auth", userRoute);
