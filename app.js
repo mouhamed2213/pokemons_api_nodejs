@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import morgan from "morgan"; // logger
 import favicon from "serve-favicon";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -29,7 +28,7 @@ app
     }),
   )
   .use(favicon(__dirname + "/favicon.ico"))
-  .use(morgan("dev"))
+  // .use(morgan("dev"))
   .use(bodyParser.json()); // parse body request to json
 
 app.use("/", (req, res) => {
