@@ -2,8 +2,8 @@ import { Sequelize, DataTypes } from "sequelize";
 import { pokemonModel } from "../models/pokemon.js";
 import { userModel } from "../models/user.js";
 import { pokemons as defaultPokemonList } from "./pokemons.js";
+const isProduction = process.env.NODE_ENV === "production";
 
-console.log();
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -11,22 +11,17 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: "mysql",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-    pool: {
-      max: 10, // nbr nbr open connection
-      min: 0, // 0 on waiting
-      acquire: 30000, // time  in ms to try open connection befor closing it or send erroR
-      idle: 1000, // waiting idle(inactif) time beforE reject
-    },
+    dialect: "postgres",
+    dialectOptions: isProduction
+      ? {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
+      : {},
   },
 );
-// }
 
 const dbInit = async () => {
   try {
